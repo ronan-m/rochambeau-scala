@@ -1,5 +1,5 @@
 # Rochambeau
-This is an implementation of Rochambeau in Scala
+This is an implementation of Rochambeau in Scala.
 
 ## Test/Run
 Type `test` in sbt shell  to run the tests.
