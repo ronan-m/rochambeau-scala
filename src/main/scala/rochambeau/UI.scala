@@ -31,12 +31,10 @@ case class UI(game: Game) {
   }
 
   private def playerVsComputer(): Unit = {
-    val playerHand:Hand = getPlayerHand
-    if (playerHand == null) {
-      println("Invalid hand.")
-      playerVsComputer()
-    }
+    val playerHand: Hand = getPlayerHand
+
     val handsAndResult = game.playPlayerVsComputer(playerHand)
+
     endGame(handsAndResult)
   }
 
@@ -50,14 +48,17 @@ case class UI(game: Game) {
       """Choose hand: (R)ock / (P)aper / (S)cissors
         |>""".stripMargin)
     val input = StdIn.readLine().strip()
-    userInputToHand(input)
+    userInputToHand(input).getOrElse(getPlayerHand)
   }
 
-  def userInputToHand(input: String): Hand = {
-    if (Rock.validInputs contains input) Rock
-    else if (Paper.validInputs contains input) Paper
-    else if (Scissors.validInputs contains input) Scissors
-    else null
+  def userInputToHand(input: String): Option[Hand] = {
+    if (Rock.validInputs contains input) Some(Rock)
+    else if (Paper.validInputs contains input) Some(Paper)
+    else if (Scissors.validInputs contains input) Some(Scissors)
+    else {
+      println("Invalid input.")
+      None
+    }
   }
 
   private def endGame(handsAndResult: (Hand, Hand, Result)): Unit = {
